@@ -93,6 +93,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: SliverAppBarDelegate(
+                      maxHeight: 50,
+                      minHeight: 50,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal:10,vertical: 10),
+                        color: secondarywhite,
+                        child: Text("Total Appointments : ${aptCtrl.appointmentList.length}",style: TxtStls.stl14,)
+                      ),
+                    ),
+                  ),
                   SliverBox(
                       h: 10.0,
                       child: aptCtrl.getAptLoad
@@ -150,8 +162,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     Text(data.userlinkid!.phone.toString(),
                                         style: TxtStls.stl14),
-                                    Text("Action : "+data.action.toString(),
-                                        style: TxtStls.stl14),
+                                    Row(
+                                      children: [
+                                        Text("Action : ", style: TxtStls.stl14),
+                                        Text(data.action==null||data.action==""?"Pending":data.action.toString(), style: TxtStls.stl14),
+                                      ],
+                                    )
                                   ],
                                 ),
                                 Gap(h: 4.0),
@@ -162,10 +178,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(data.createdDate.toString(),
-                                        style: TxtStls.stl14),
-                                    Text("Status : "+data.aptStatus.toString(),
-                                        style: TxtStls.stl14),
+                                    Flexible(
+                                      flex:4,
+                                      child: Text(data.createdDate.toString(), style: TxtStls.stl14),),
+                                    Gap(w: 5.0),
+                                    Flexible(
+                                      flex:6,
+                                      child: Row(
+                                        children: [
+                                          Text("Status : ", style: TxtStls.stl14),
+                                          Flexible(child: Text(data.aptStatus.toString(), style: TxtStls.stl14)),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -254,7 +279,9 @@ Widget FilterSheet(context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Gap(h: 10.0),
-                DobField(context,controller: aptCtrl.filterDateController,labelText: "Select Date",hintText: "DD/MM/YYYY"),
+                DobField(context,controller: aptCtrl.filterDateController,labelText: "Select Date",hintText: "DD/MM/YYYY",onPressed: (){
+                  aptCtrl.filterDateController.clear();
+                }),
                 Gap(h: 10.0),
                 Wrap(
                   spacing: 5,

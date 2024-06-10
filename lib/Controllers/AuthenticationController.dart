@@ -56,6 +56,7 @@ class AuthenticationController extends ChangeNotifier {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const LoginView()), (route) => false);
+    notifyListeners();
   }
 
   bool forgotLoad = false;
@@ -84,6 +85,7 @@ class AuthenticationController extends ChangeNotifier {
     profileLoad = true;
     notifyListeners();
     final response = await ApiMethods.postMethod(endpoint: "users/getAccountDetails", postJson: {"_id": UserId});
+    print(response);
     if (response != null) {
       var data = response["data"][0];
       fullname = data["firstName"] + " " + data["lastName"];

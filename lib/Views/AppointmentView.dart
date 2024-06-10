@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lc/Controllers/AppointmentController.dart';
+import 'package:lc/Controllers/AuthenticationController.dart';
 import 'package:lc/Controllers/CameraController.dart';
 import 'package:lc/Models/PersonalModel.dart';
 import 'package:lc/Utils/AppColors.dart';
@@ -33,6 +34,9 @@ class _AppointmentViewState extends State<AppointmentView> {
   TextEditingController purposeController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
 
+  final  _formKey = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,71 +61,75 @@ class _AppointmentViewState extends State<AppointmentView> {
               padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    RowValue(title: "Full Name",value: "${widget.personData.firstName.toString()} ${widget.personData.lastName.toString()}"),
-                    const SizedBox(height: 5),
-                    RowValue(title: "Phone",value: widget.personData.phone.toString()),
-                    const SizedBox(height: 5),
-                    RowValue(title: "Aadhar",value: widget.personData.aadharId.toString()),
-                    const SizedBox(height: 5),
-                    RowValue(title: "Ration",value: widget.personData.rationId.toString()),
-                    const SizedBox(height: 5),
-                    RowValue(title: "Voter",value: widget.personData.voterId.toString()),
-                    const SizedBox(height: 5),
-                    RowValue(title: "Village",value: widget.personData.village.toString()),
-                    const SizedBox(height: 5),
-                    RowValue(title: "Constituency",value: widget.personData.constituencywithVoteId.toString()),
-                    const SizedBox(height: 5),
-                    RowValue(title: "Address",value: widget.personData.address.toString()),
-                    const SizedBox(height: 10),
-                    NumberField(labelText: "No. of Visitors Accompanied",hintText: "No. of Visitors Accompanied",controller:numberController),
-                    const SizedBox(height: 15),
-                    StatDropdown(value:natureWork,itemsList: ["Raithu Bhandu","Widow Pension","PH Penison","Old Age Pension","Raithu Bhima","Subcidy Loans","Society Loans","Double Bedroom House","Tractor Loan","Others"],labelText: "Nature Of Work / Type Of Work",hintText: "Nature Of Work / Type Of Work",onChanged: (value){
-                      setState(() {
-                        natureWork = value;
-                      });
-                    }),
-                    const SizedBox(height: 15),
-                    StatDropdown(value:visitPriority,itemsList: ["Emergency","Priority","Multiple Visits","General"],labelText: "Priority Of Visit",hintText: "Priority Of Visit",onChanged: (value){
-                      setState(() {
-                        visitPriority = value;
-                      });
-                    }),
-                    const SizedBox(height: 10),
-                    NameField(labelText: "Purpose Of Visit",hintText: "Purpose Of Visit",controller:purposeController),
-                    const SizedBox(height: 10),
-                    NameField(labelText: "Remarks",hintText: "Remarks",controller:remarkController),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: dayshrcolor.withOpacity(0.25),
-                          maxRadius: 30,
-                          child: IconButton(iconSize:25,onPressed: (){
-                            showCamera(context,from: "1");
-                          }, icon: const Icon(Icons.photo)),
-                        ),
-                        CircleAvatar(
-                          backgroundColor: dayshrcolor.withOpacity(0.25),
-                          maxRadius: 30,
-                          child: IconButton(iconSize:25,onPressed: (){
-                            showCamera(context,from: "2");
-                          }, icon: const Icon(Icons.file_present)),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        if (camCtrl.imageFile == null) Text('No Image selected.',style: TxtStls.stl13,) else Image.file(camCtrl.imageFile,height: 150,width: size.width*0.4,),
-                        Flexible(child: Text(camCtrl.file == null?'No File selected.':camCtrl.file.toString(),style: TxtStls.stl13,))
-                      ],
-                    )
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    children: [
+                      RowValue(title: "Full Name",value: "${widget.personData.firstName.toString()} ${widget.personData.lastName.toString()}"),
+                      const SizedBox(height: 5),
+                      RowValue(title: "Phone",value: widget.personData.phone.toString()),
+                      const SizedBox(height: 5),
+                      RowValue(title: "Aadhar",value: widget.personData.aadharId.toString()),
+                      const SizedBox(height: 5),
+                      RowValue(title: "Ration",value: widget.personData.rationId.toString()),
+                      const SizedBox(height: 5),
+                      RowValue(title: "Voter",value: widget.personData.voterId.toString()),
+                      const SizedBox(height: 5),
+                      RowValue(title: "Village",value: widget.personData.village.toString()),
+                      const SizedBox(height: 5),
+                      RowValue(title: "Constituency",value: widget.personData.constituencywithVoteId.toString()),
+                      const SizedBox(height: 5),
+                      RowValue(title: "Address",value: widget.personData.address.toString()),
+                      const SizedBox(height: 10),
+                      NumberField(labelText: "No. of Visitors Accompanied",hintText: "No. of Visitors Accompanied",controller:numberController,maxLength: 2),
+                      const SizedBox(height: 15),
+                      StatDropdown(value:natureWork,itemsList: ["Raithu Bhandu","Widow Pension","PH Penison","Old Age Pension","Raithu Bhima","Subcidy Loans","Society Loans","Double Bedroom House","Tractor Loan","Others"],labelText: "Nature Of Work / Type Of Work",hintText: "Nature Of Work / Type Of Work",onChanged: (value){
+                        setState(() {
+                          natureWork = value;
+                        });
+                      }),
+                      const SizedBox(height: 15),
+                      StatDropdown(value:visitPriority,itemsList: ["Emergency","Priority","Multiple Visits","General"],labelText: "Priority Of Visit",hintText: "Priority Of Visit",onChanged: (value){
+                        setState(() {
+                          visitPriority = value;
+                        });
+                      }),
+                      const SizedBox(height: 10),
+                      NameField(labelText: "Purpose Of Visit",hintText: "Purpose Of Visit",controller:purposeController),
+                      const SizedBox(height: 10),
+                      NameField1(labelText: "Remarks",hintText: "Remarks",controller:remarkController),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: dayshrcolor.withOpacity(0.25),
+                            maxRadius: 30,
+                            child: IconButton(iconSize:25,onPressed: (){
+                              showCamera(context,from: "1");
+                            }, icon: const Icon(Icons.photo)),
+                          ),
+                          CircleAvatar(
+                            backgroundColor: dayshrcolor.withOpacity(0.25),
+                            maxRadius: 30,
+                            child: IconButton(iconSize:25,onPressed: (){
+                              showCamera(context,from: "2");
+                            }, icon: const Icon(Icons.file_present)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          if (camCtrl.imageFile == null) Text('No Image selected.',style: TxtStls.stl13,) else Image.file(camCtrl.imageFile,height: 150,width: size.width*0.4,),
+                          Flexible(child: Text(camCtrl.file == null?'No File selected.':camCtrl.file.toString(),style: TxtStls.stl13,))
+                        ],
+                      )
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -133,19 +141,26 @@ class _AppointmentViewState extends State<AppointmentView> {
               load: aptCtrl.createLoad,
               title: "Book Appointment",
               onTap: () {
-                aptCtrl.saveFormData(
-                    context,
-                    image:camCtrl.imageFile,
-                    doc:camCtrl.file,
-                    visitCount:numberController.text,
-                    natureofWork:natureWork,
-                    priortyofVisit:visitPriority,
-                    visitPurpose:purposeController.text,
-                    remarks:remarkController.text,
-                    followupComments:"",
-                    action:"",
-                    userlinkid:widget.personData.sId
-                );
+                if(_formKey.currentState!.validate()){
+                  if(camCtrl.imageFile!=null){
+                    aptCtrl.saveFormData(
+                        context,
+                        image:camCtrl.imageFile,
+                        doc:camCtrl.file,
+                        visitCount:numberController.text,
+                        natureofWork:natureWork,
+                        priortyofVisit:visitPriority,
+                        visitPurpose:purposeController.text,
+                        remarks:remarkController.text,
+                        followupComments:"",
+                        action:"",
+                        userlinkid:widget.personData.sId
+                    );
+                  }
+                  else{
+                    ShowMessage(context,backgroundColor: onprimaryhrcolor,message:"Please Select Image");
+                  }
+                }
               },
             ),
           ),

@@ -101,6 +101,18 @@ Widget NameField({controller,labelText,hintText}){
   );
 }
 
+Widget NameField1({controller,labelText,hintText}){
+  return TextFormField(
+    style: TxtStls.stl14,
+    controller:controller,
+    decoration: inputDecoration(labelText: labelText,hintText: hintText),
+    textInputAction: TextInputAction.next,
+    keyboardType: TextInputType.name,
+    textCapitalization: TextCapitalization.words,
+    maxLines: 2,
+  );
+}
+
 
 Widget PhoneField({controller,labelText,hintText}){
   return TextFormField(
@@ -129,7 +141,7 @@ Widget PhoneField({controller,labelText,hintText}){
   );
 }
 
-Widget NumberField({controller,labelText,hintText}){
+Widget NumberField({controller,labelText,hintText,required maxLength}){
   return TextFormField(
     style: TxtStls.stl14,
     controller:controller,
@@ -140,6 +152,7 @@ Widget NumberField({controller,labelText,hintText}){
     inputFormatters: <TextInputFormatter>[
       FilteringTextInputFormatter.digitsOnly
     ],
+    maxLength:maxLength,
     validator: (phone){
       if(phone!.isEmpty){
         return "$labelText can not be empty";
@@ -153,12 +166,25 @@ Widget NumberField({controller,labelText,hintText}){
 }
 
 
-Widget DobField(context,{controller,labelText,hintText,type=""}){
+Widget DobField(context,{controller,labelText,hintText,type="",onPressed}){
   return TextFormField(
     style: TxtStls.stl14,
     controller:controller,
     readOnly: true,
-    decoration: inputDecoration(labelText: labelText,hintText: hintText),
+    decoration:InputDecoration(
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10)
+        ),
+        contentPadding: const EdgeInsets.all(10),
+        labelText:labelText,
+        labelStyle: TxtStls.stl14,
+        hintText: hintText,
+        hintStyle: TxtStls.stl13,
+        fillColor: secondarywhite,
+        filled: true,
+        counterText: "",
+      suffixIcon: IconButton(onPressed: onPressed, icon: Icon(Icons.clear))
+    ),
     textInputAction: TextInputAction.next,
     keyboardType: TextInputType.name,
     textCapitalization: TextCapitalization.words,
@@ -184,7 +210,7 @@ Future<void> selectDate(BuildContext context,{required TextEditingController con
     lastDate: DateTime.now(),
   );
   if (picked != null){
-    controller.text = "${picked.day<10?"0${picked.day}":picked.day}/${picked.month<10?"0${picked.month}":picked.month}/${picked.year}";
+    controller.text = "${picked.year}-${picked.month<10?"0${picked.month}":picked.month}-${picked.day<10?"0${picked.day}":picked.day}";
 
   }
 }

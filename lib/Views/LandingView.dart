@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lc/Controllers/AppointmentController.dart';
 import 'package:lc/Controllers/AuthenticationController.dart';
@@ -19,7 +21,7 @@ class _LandingViewState extends State<LandingView> {
     // TODO: implement initState
     super.initState();
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      ApiMethods.getKeys().then((value) {
+      ApiMethods.getKeys().whenComplete(() {
         Provider.of<AuthenticationController>(context, listen: false).GetProfileData(UserId: ApiMethods.userId);
         final aptCtrl = Provider.of<AppointmentController>(context, listen: false);
         aptCtrl.GetAllAppointment();

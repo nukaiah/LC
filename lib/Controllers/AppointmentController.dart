@@ -27,7 +27,7 @@ class AppointmentController extends ChangeNotifier{
       if(response!=null){
         var aptData = response["data"];
         _originalList = aptData == null ? [] : List<AppointmentModel>.from(aptData.map((e) => AppointmentModel.fromJson(e)));
-        _appointmentList = _originalList.where((element) => element.aptStatus!="Completed"&&element.aptStatus!="Cancelled"&&element.action!="Approved"&&element.action!="Cancelled").toList();
+        _appointmentList = _originalList.where((element) => element.aptStatus!="Completed"&&element.aptStatus!="Cancelled").toList();
 
       }
       getAptLoad = false;
@@ -149,31 +149,31 @@ class AppointmentController extends ChangeNotifier{
   void FilterList({priority, AptStatus, date}) {
     if (priority == "All" && AptStatus == "All" && date == "") {
       _appointmentList = _originalList;
-    } else if (priority == "All" && date == "" && AptStatus != "All") {
+    } else if (priority == "All" && date == "") {
       _appointmentList = _originalList
           .where((item) => item.aptStatus.toString() == AptStatus.toString())
           .toList();
-    } else if (AptStatus == "All" && date == "" && priority != "All") {
+    } else if (AptStatus == "All" && date == "") {
       _appointmentList = _originalList
           .where((item) => item.priortyofVisit.toString() == priority.toString())
           .toList();
-    } else if (priority != "All" && AptStatus != "All" && date == "") {
+    } else if (date == "") {
       _appointmentList = _originalList
           .where((item) =>
       item.aptStatus.toString() == AptStatus.toString() &&
           item.priortyofVisit.toString() == priority.toString())
           .toList();
-    } else if (priority == "All" && AptStatus == "All" && date != "") {
+    } else if (priority == "All" && AptStatus == "All") {
       _appointmentList = _originalList
           .where((item) => item.createdDate.toString() == date.toString())
           .toList();
-    } else if (priority == "All" && AptStatus != "All" && date != "") {
+    } else if (priority == "All") {
       _appointmentList = _originalList
           .where((item) =>
       item.aptStatus.toString() == AptStatus.toString() &&
           item.createdDate.toString() == date.toString())
           .toList();
-    } else if (AptStatus == "All" && priority != "All" && date != "") {
+    } else if (AptStatus == "All") {
       _appointmentList = _originalList
           .where((item) =>
       item.priortyofVisit.toString() == priority.toString() &&
