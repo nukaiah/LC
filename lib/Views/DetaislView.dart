@@ -106,10 +106,10 @@ class _DetailsViewState extends State<DetailsView> {
           ),
           bottomNavigationBar:
               Container(height: 100, color: hintcolor.withOpacity(0.25),
-              child: aptCtrl.updateLoad?Center(child: CircularProgressIndicator()):Row(
+              child: aptCtrl.updateLoad?const Center(child: CircularProgressIndicator()):Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  MaterialButton(
+                  widget.appointmentModel.action=="Cancelled"?const SizedBox():MaterialButton(
                     onPressed: (){
                       aptCtrl.UpdateAppoinment(context,id:widget.appointmentModel.sId,action: "Cancelled");
                     },
@@ -118,7 +118,7 @@ class _DetailsViewState extends State<DetailsView> {
                     minWidth: 100,
                     child: Text("Cancelled",style: TxtStls.wstl14)
                   ),
-                  MaterialButton(
+                  widget.appointmentModel.action=="On Hold"?const SizedBox():MaterialButton(
                       onPressed: (){
                         aptCtrl.UpdateAppoinment(context,id:widget.appointmentModel.sId,action: "On Hold");
                       },
@@ -127,7 +127,7 @@ class _DetailsViewState extends State<DetailsView> {
                       minWidth: 100,
                       child: Text("On Hold",style: TxtStls.wstl14)
                   ),
-                  MaterialButton(
+                  widget.appointmentModel.action=="Approved"?const SizedBox():MaterialButton(
                       onPressed: (){
                         aptCtrl.UpdateAppoinment(context,id:widget.appointmentModel.sId,action: "Approved");
                       },

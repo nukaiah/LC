@@ -27,7 +27,6 @@ class AppointmentController extends ChangeNotifier{
         var aptData = response["data"];
         _originalList = aptData == null ? [] : List<AppointmentModel>.from(aptData.map((e) => AppointmentModel.fromJson(e)));
         _appointmentList = _originalList.where((element) => element.aptStatus!="Completed"&&element.aptStatus!="Cancelled").toList();
-
       }
       getAptLoad = false;
       notifyListeners();
