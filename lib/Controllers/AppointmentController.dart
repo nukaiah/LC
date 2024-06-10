@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lc/Controllers/AuthenticationController.dart';
@@ -140,7 +139,7 @@ class AppointmentController extends ChangeNotifier{
       GetAllAppointment();
       ShowMessage(context,backgroundColor: savebtncolor,message: "Appointment saved successfully");
     } else {
-      ShowMessage(context,backgroundColor: onprimaryhrcolor,message: "Appointment failed to save");
+      ShowMessage(context,backgroundColor: onprimaryhrcolor,message: response.reasonPhrase.toString());
     }
     createLoad = false;
     notifyListeners();

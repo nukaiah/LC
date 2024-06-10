@@ -135,6 +135,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 50,
                                 height: 100,
                                 filterQuality: FilterQuality.high,
+                                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                  return const Icon(
+                                    Icons.broken_image_outlined,
+                                    size: 30,
+                                    color: Colors.red,
+                                  );
+                                },
                               ),
                             ),
                             title: Row(

@@ -114,7 +114,7 @@ class _AppointmentViewState extends State<AppointmentView> {
                             backgroundColor: dayshrcolor.withOpacity(0.25),
                             maxRadius: 30,
                             child: IconButton(iconSize:25,onPressed: (){
-                              showCamera(context,from: "2");
+                              camCtrl.pickFile(context,allowedExtensions: ['pdf', 'doc', 'docx'],from: "2");
                             }, icon: const Icon(Icons.file_present)),
                           ),
                         ],
@@ -216,7 +216,6 @@ void showCamera(BuildContext context,{required from}) {
                     Text("Gallery",style: TxtStls.stl14)
                   ],
                 )
-
               ],
             ),
           );

@@ -85,7 +85,6 @@ class AuthenticationController extends ChangeNotifier {
     profileLoad = true;
     notifyListeners();
     final response = await ApiMethods.postMethod(endpoint: "users/getAccountDetails", postJson: {"_id": UserId});
-    print(response);
     if (response != null) {
       var data = response["data"][0];
       fullname = data["firstName"] + " " + data["lastName"];

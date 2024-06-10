@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lc/Controllers/AuthenticationController.dart';
+import 'package:lc/Utils/AppColors.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,17 +14,26 @@ class CameraOpenController extends ChangeNotifier {
   var file;
 
   Future<void> selectImage(context,{required ImageSource source,required from}) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: source);
-    if (image != null) {
-      if(from=="1"){
-        imageFile = File(image.path);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source);
+    if(image!=null){
+      final File SimageFile = File(image.path);
+      int maxSize = 5 * 1024 * 1024;
+      final int imageSize = await SimageFile.length();
+      if(imageSize<=maxSize){
+        if(from=="1"){
+          imageFile = File(image.path);
+        }
+        else{
+          file = File(image.path);
+        }
       }
       else{
-        file = File(image.path);
+        ShowMessage(context,message: "File size should 3 Mb or below",backgroundColor: onprimaryhrcolor);
       }
-      Navigator.pop(context);
     }
+
+    Navigator.pop(context);
     notifyListeners();
   }
 
@@ -29,14 +42,24 @@ class CameraOpenController extends ChangeNotifier {
       type: FileType.custom,
       allowedExtensions: allowedExtensions,
     );
-    if (result != null && result.files.single.path != null) {
-      if(from=="1"){
-        imageFile = File(result.files.single.path!);
+    if (result!=null && result.files.single.path != null) {
+      int maxSize = 3 * 1024 * 1024;
+      int selectedSize = result.files.single.size;
+      if(selectedSize<=maxSize){
+        if(from=="1"){
+          imageFile = File(result.files.single.path!);
+          Navigator.pop(context);
+        }
+        else{
+          file = File(result.files.single.path!);
+        }
       }
       else{
-        file = File(result.files.single.path!);
+        if(from=="1"){
+          Navigator.pop(context);
+        }
+        ShowMessage(context,message: "File size should 3 Mb or below",backgroundColor: onprimaryhrcolor);
       }
-      Navigator.pop(context);
     }
     notifyListeners();
   }
