@@ -143,15 +143,16 @@ class _AppointmentViewState extends State<AppointmentView> {
               onTap: () {
                 if(_formKey.currentState!.validate()){
                   if(camCtrl.imageFile!=null){
+                    print(numberController.text.toString());
                     aptCtrl.saveFormData(
                         context,
                         image:camCtrl.imageFile,
                         doc:camCtrl.file,
-                        visitCount:numberController.text,
-                        natureofWork:natureWork,
-                        priortyofVisit:visitPriority,
-                        visitPurpose:purposeController.text,
-                        remarks:remarkController.text,
+                        visitCount:numberController.text.toString(),
+                        natureofWork:natureWork.toString(),
+                        priortyofVisit:visitPriority.toString(),
+                        visitPurpose:purposeController.text.toString(),
+                        remarks:remarkController.text.toString(),
                         followupComments:"",
                         action:"",
                         userlinkid:widget.personData.sId

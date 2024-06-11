@@ -7,6 +7,7 @@ import 'package:lc/Models/PersonalModel.dart';
 import 'package:lc/Utils/AppColors.dart';
 import 'package:lc/Utils/Urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:lc/Views/LandingView.dart';
 
 
 class AppointmentController extends ChangeNotifier{
@@ -61,6 +62,7 @@ class AppointmentController extends ChangeNotifier{
     });
     if(response!=null){
       ShowMessage(context,backgroundColor: savebtncolor,message: response["message"]);
+      Navigator.pop(context);
     }
     else{
       ShowMessage(context,backgroundColor: savebtncolor,message:"Failed to Update");
@@ -118,7 +120,8 @@ class AppointmentController extends ChangeNotifier{
     notifyListeners();
     final uri = Uri.parse("https://node-mongo-seven.vercel.app/api/appointments/createApt");
     var request = http.MultipartRequest('POST', uri);
-    request.fields['visitCount'] =visitCount;
+    print(visitCount);
+    request.fields['vistCount'] =visitCount;
     request.fields['natureofWork'] = natureofWork;
     request.fields['priortyofVisit'] = priortyofVisit;
     request.fields['visitPurpose'] = visitPurpose;
@@ -136,6 +139,7 @@ class AppointmentController extends ChangeNotifier{
     print(response.reasonPhrase);
     if (response.statusCode == 200) {
       GetAllAppointment();
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const LandingView()), (route) => false);
       ShowMessage(context,backgroundColor: savebtncolor,message: "Appointment saved successfully");
     } else {
       ShowMessage(context,backgroundColor: onprimaryhrcolor,message: response.reasonPhrase.toString());

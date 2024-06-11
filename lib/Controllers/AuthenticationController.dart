@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lc/Utils/AppColors.dart';
 import 'package:lc/Utils/TextStyles.dart';
 import 'package:lc/Utils/Urls.dart';
 import 'package:lc/Views/LandingView.dart';
@@ -25,14 +26,22 @@ class AuthenticationController extends ChangeNotifier {
         String token = userData["token"];
         var roleId = userData["type"];
         var userId = userData["_id"];
+        var type = userData["type"];
         sharedPreferences.setString("token", token.toString());
         sharedPreferences.setString("roleId", roleId.toString());
         sharedPreferences.setString("userId", userId.toString());
-        ShowMessage(context, backgroundColor: Colors.green, message: message);
-       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const LandingView()), (route) => false);
+        sharedPreferences.setString("type",type.toString());
+
+        if(type.toString()!="3"){
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const LandingView()), (route) => false);
+          ShowMessage(context, backgroundColor: savebtncolor, message: message);
+        }
+        else{
+          ShowMessage(context, backgroundColor: onprimaryhrcolor, message: "You are not authorised to login into application");
+        }
       }
       else {
-        ShowMessage(context, backgroundColor: Colors.redAccent, message: message);
+        ShowMessage(context, backgroundColor: onprimaryhrcolor, message: message);
       }
     }
     else{
