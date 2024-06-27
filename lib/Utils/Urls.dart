@@ -58,6 +58,20 @@ class ApiMethods {
     }
   }
 
+  static putMethod({required endpoint, required postJson}) async {
+    try {
+      Uri url = Uri.parse(Urls.baseUrl + endpoint);
+      final response = await http.put(url,
+          headers: headers1(usertoken: token), body: jsonEncode(postJson));
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        return responseData;
+      }
+    } on Exception {
+      return null;
+    }
+  }
+
   static loginMethod({required postJson}) async {
     try {
       Uri url = Uri.parse(Urls.baseUrl + "users/login");

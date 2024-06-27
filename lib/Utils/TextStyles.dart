@@ -87,4 +87,14 @@ class TxtStls {
     ),
   );
 
+  static TextStyle forgotStle = GoogleFonts.poppins(
+    textStyle: const TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 12,
+      letterSpacing: 0,
+      color: primarycolor,
+      fontFamily: "poppins",
+    ),
+  );
+
 }

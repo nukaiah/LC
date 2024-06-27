@@ -55,7 +55,7 @@ Widget PasswordField({controller, isVisible = false, labelText, hintText,onPress
         if (password!.isEmpty) {
           return "Password cannot be empty";
         } else if (password.length < 5) {
-          return "Password should be 6 chars";
+          return "Password should be 5 chars";
         } else {
           return null;
         }

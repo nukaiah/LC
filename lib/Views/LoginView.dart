@@ -4,6 +4,7 @@ import 'package:lc/Utils/AppColors.dart';
 import 'package:lc/Utils/MySlivers.dart';
 import 'package:lc/Utils/InputFields.dart';
 import 'package:lc/Utils/TextStyles.dart';
+import 'package:lc/Views/ForgorPasswordView.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
@@ -61,6 +62,17 @@ class _LoginViewState extends State<LoginView> {
                             isVisible=!isVisible;
                             setState(() {});
                           }
+                        ),
+                        Gap(h: 20.0),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            child: Text("Forgot Password",
+                                style: TxtStls.forgotStle),
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=>const ForgorPasswordView()));
+                            },
+                          ),
                         ),
                         Gap(h: 20.0),
                         MyButton(

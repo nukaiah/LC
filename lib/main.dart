@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lc/Controllers/AppointmentController.dart';
 import 'package:lc/Controllers/AuthenticationController.dart';
 import 'package:lc/Controllers/CameraController.dart';
+import 'package:lc/Views/ChangePasswordView.dart';
 import 'package:lc/Views/SplashView.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: SplashView()
     );
   }
 }
